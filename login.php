@@ -1,7 +1,7 @@
 <?php
 session_start();
 //change check
-include 'connect.' ;
+include 'connect.php' ;
 $error = "";
 if(isset($_POST['login'])){
     $username = trim($_POST['username']);
