@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+//check
 include 'connect.php' ;
 $error = "";
 if(isset($_POST['login'])){
