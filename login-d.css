@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:sans-serif;
+}
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f9f9f9;
+}
+.container{
+    width: 420px;
+    background: #fff;
+   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    border: none;
+    padding:60px 60px;
+}
+.container h1{
+    text-align: center;
+    color: #000dff;
+    font-size: 50px;
+    font-weight: bold;
+}
+.container .input{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+.input input{
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+    background:transparent;
+    border: none;
+    outline: none;
+    color: black;
+    border-radius: 5px;
+    padding-left: 20px;
+    box-shadow: 0 2px 6px rgba(4, 53, 103, 0.4);
+}
+.input input::placeholder{
+    color: black;
+
+}
+.container .button{
+    width: 100%;
+    height: 45px;
+    border-radius:9px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    background:  #000dff;
+}
+.container button{
+    color: white;
+    font-weight: bold;
+}
+.button:hover{
+    background-color:#000568;
+    transition-duration: .7s;
+    
+}
+.container .register{
+    text-align: center;
+    padding-left: 60px;
+    padding-bottom: 3px;
+}
+.container .text_box{
+    text-align: center;
+}
+
