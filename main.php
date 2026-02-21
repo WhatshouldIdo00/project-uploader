@@ -27,7 +27,7 @@
     </div>
     <label>Description:</label>
     <div class="input">
-       <textarea name="description" class="input" cols="65" rows="10" required></textarea><br><br>
+       <textarea name="description" class="input"  rows="5" cols="30" required></textarea><br><br>
     </div>
     <label>Participants:</label>
     <div class="input">
@@ -51,21 +51,22 @@
 
 <?php if(isset($_POST['submit'])) {
    $username = $_SESSION['username']; 
-  $project_name = $_POST['project_name'];
-  $description = $_POST['description'];
-  $participants = $_POST['participants'];
-  $project_url = $_POST['project_url'];
+   $project_name = $_POST['project_name'];
+   $description = $_POST['description'];
+   $participants = $_POST['participants'];
+   $project_url = $_POST['project_url'];
+   $project_logo = $_POST['project_logo'];
 
-if(!empty($project_name) && !empty($description) && !empty($participants) && !empty($project_url)) {
-      $sql = "INSERT INTO projects(username,project_name, description, participants, project_url)
-              VALUES('$username', '$project_name', '$description', '$participants', '$project_url')";
-if (mysqli_query($conn,$sql)) {
+if(!empty($project_name) && !empty($description) && !empty($participants) && !empty($project_url) && !empty($project_logo)) {
+      $sql = "INSERT INTO projects(username,project_name, description, participants, project_url , project_logo)
+              VALUES('$username', '$project_name', '$description', '$participants', '$project_url' , '$project_logo')";
+      if (mysqli_query($conn,$sql)) {
           echo "<p style='color:green;'>Project uploaded successfully!</p>";
       } 
-else {
+      else {
           echo "<p style='color:red;'>Error: " . mysqli_error($conn) . "</p>";
       }
-  } 
+  }
 else {
           echo "<p style='color:red;'>Please fill all fields!</p>";
   }

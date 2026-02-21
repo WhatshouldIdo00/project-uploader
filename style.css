@@ -15,7 +15,7 @@ h2 {
 
 /* Labels */
 label {
-    color: #28a745;
+    color:  #000dff;
     font-size: 18px;
     font-weight: bold;
 }
@@ -28,7 +28,7 @@ label {
     background: #fff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(7, 52, 96, 0.3);
 }
 
 /* Inputs & Textarea */
@@ -40,6 +40,7 @@ label {
     border: 1px solid #ccc;
     font-size: 16px;
     box-sizing: border-box;
+    box-shadow:  0 2px 6px rgba(0,0,0,0.2);
 }
 
 /* Button */
@@ -51,7 +52,7 @@ label {
 
 .container button {
     color: white;
-    background: #28a745;
+    background:  #000dff;
     border-radius: 5px;
     height: 45px;
     width: 200px;
@@ -62,7 +63,7 @@ label {
 }
 
 button:hover {
-    background: #000000;
+    background:#000568;
     transition: 0.3s;
 }
 
@@ -71,11 +72,12 @@ button:hover {
     display: flex;
     justify-content: flex-end;
     padding: 20px;
+    padding-top: 10px;
 }
 
 a {
     color: white;
-    background: #28a745;
+    background:  #000dff;
     padding: 8px 15px;
     font-weight: bold;
     text-decoration: none;
@@ -83,8 +85,11 @@ a {
 }
 
 a:hover {
-    background: #218838;
+    background: #000568;
     transition: 0.3s;
+}
+textarea{
+    resize: none;
 }
 @media (max-width: 768px) {
 

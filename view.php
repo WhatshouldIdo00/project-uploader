@@ -1,4 +1,4 @@
-<?php include("connect.php"); 
+<?php include("connect2.php"); 
 session_start();
 /*if(!isset($_SESSION['username'])){
   die("Error: you must login first");
@@ -95,6 +95,42 @@ exit();
       transition: 0.7s;
       transition-timing-function: ease-in-out;
     }
+    @media (max-width: 768px) {
+
+    h2 {
+        font-size: 35px;
+    }
+
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .container button {
+        width: 100%;
+    }
+
+    .view {
+        justify-content: center;
+    }
+ }
+
+ @media (max-width: 480px) {
+
+    h2 {
+        font-size: 28px;
+    }
+
+    label {
+        font-size: 16px;
+    }
+
+    .container input,
+    .container textarea {
+        font-size: 14px;
+    }
+  }
+
   </style>
 </head>
 <body>
@@ -111,12 +147,12 @@ exit();
         echo "
         <div class='project-card'>
           <h3><u>{$row['project_name']}</u></h3>
+          <img src='{$row['project_logo']}' alt='Image of project'>
           <p><b>Description:</b> {$row['description']}</p>
           <p><b>Participants:</b> {$row['participants']}</p>
           <a href='{$row['project_url']}' target='_blank'>🔗 View Project</a>
           <p><b>Project uploaded by: </b>{$row['username']}</p>
           <a href='view.php?project_name=". ($row['project_name']). "'class='delete-btn' onclick='return confirm(\"Are you sure you want to delete this project?\")'>🗑 Delete</a>
-          <img src='{$row['logo']}' alt='Image of project'>
         </div>
         ";
       }
