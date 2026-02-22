@@ -1,5 +1,5 @@
 <?php 
-    include ("connect2.php"); 
+    include ("connect.php"); 
     session_start();
     if(!isset($_SESSION['username'])){
         header("Location: login.php");
@@ -41,7 +41,7 @@
     <div class="input">
        <input type="file" name="project_logo" class="input" required><br><br>
     </div>
-    <div class="button-container">
+       <div class="button-container">
     <button type="submit" name="submit">Upload Project</button>
     </div>   
   </form>

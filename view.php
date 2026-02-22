@@ -1,165 +1,218 @@
-<?php include("connect2.php"); 
+<?php 
+include("connect.php"); 
 session_start();
-/*if(!isset($_SESSION['username'])){
-  die("Error: you must login first");
-}*/
+
+// Check if user is logged in
+if(!isset($_SESSION['username'])){
+    die("Error: You must login first.");
+}
 
 $username = $_SESSION['username'];
 
+// --- DELETE LOGIC ---
 if(isset($_GET['project_name'])){
-    $project_name = mysqli_real_escape_string($conn,$_GET['project_name']);
+    // Using mysqli_real_escape_string for security as in your original code
+    $project_name = mysqli_real_escape_string($conn, $_GET['project_name']);
+    
+    // SQL to delete only if the project belongs to the logged-in user
     $sql = "DELETE FROM projects WHERE project_name = '$project_name' AND username = '$username'";
-mysqli_query($conn,$sql);
-header("Location: view.php");
-exit();
-
+    
+    if(mysqli_query($conn, $sql)) {
+        header("Location: view.php?msg=deleted");
+        exit();
+    } else {
+        echo "Error deleting record: " . mysqli_error($conn);
+    }
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>View Projects</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f9f9f9;
-      margin: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Projects</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-    .project-card {
-      background: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    }
+        .header-links {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
 
-    .project-card h3 {
-      margin-top: 0;
-      color: #333;
-    }
+        .header-links h2 {
+            margin: 0;
+            color: #333;
+        }
 
-    .project-card p {
-      color: #555;
-    }
+        .header-links a.add-btn {
+            color: white;
+            background: #000dff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
 
-    .project-card a {
-      display: inline-block;
-      margin-top: 10px;
-      color: #007bff;
-      text-decoration: none;
-      font-weight: bold;
-    }
+        .header-links a.add-btn:hover {
+            background: #000568;
+        }
 
-    .project-card a:hover {
-      text-decoration: underline;
-    }
-    .delete-btn {
-      position: absolute; /* Position relative to the parent */
-      top: 20px;
-      right: 20px;
-      color: white;
-      background: #dc3545;
-      padding: 6px 12px;
-      border-radius: 5px;
-      text-decoration: none;
-    }
+        /* --- PROJECT CARD STYLES --- */
+        .project-card {
+            background: #fff;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative; /* REQUIRED: Anchors the absolute delete button */
+            transition: transform 0.2s;
+        }
 
-   .delete-btn:hover {
-    background: #c82333;
-    }
+        .project-card:hover {
+            transform: translateY(-2px);
+        }
 
-    .header-links {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        .project-card h3 {
+            margin-top: 0;
+            color: #007bff;
+            font-size: 1.5rem;
+        }
 
-    .header-links a {
-      color: white;
-      background: #000dff;
-      padding: 8px 15px;
-      text-decoration: none;
-      border-radius: 5px;
-    }
+        /* Project Logo Styling */
+        .project-logo {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 15px 0;
+            border: 1px solid #eee;
+        }
 
-    .header-links a:hover {
-      background: #218838;
-      transition: 0.7s;
-      transition-timing-function: ease-in-out;
-    }
-    @media (max-width: 768px) {
+        .project-card p {
+            color: #444;
+            line-height: 1.6;
+            margin: 8px 0;
+        }
 
-    h2 {
-        font-size: 35px;
-    }
+        .view-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-    .container {
-        width: 95%;
-        padding: 15px;
-    }
+        /* --- DELETE BUTTON STYLES --- */
+        .delete-btn {
+            position: absolute; 
+            top: 20px;
+            right: 20px;
+            color: white;
+            background: #dc3545;
+            padding: 8px 15px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-    .container button {
-        width: 100%;
-    }
+        .delete-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
 
-    .view {
-        justify-content: center;
-    }
- }
-
- @media (max-width: 480px) {
-
-    h2 {
-        font-size: 28px;
-    }
-
-    label {
-        font-size: 16px;
-    }
-
-    .container input,
-    .container textarea {
-        font-size: 14px;
-    }
-  }
-
-  </style>
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-links {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .delete-btn {
+                position: static; /* Stack on mobile for better accessibility */
+                display: inline-block;
+                margin-top: 15px;
+                width: fit-content;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
+
+<div class="container">
     <div class="header-links">
-      <h2>Uploaded Projects</h2>
-      <a href="main.php">+ Add New Project</a>
+        <h2>My Projects</h2>
+        <a href="main.php" class="add-btn">+ Add New Project</a>
     </div>
 
     <?php
-    $result = mysqli_query($conn,"SELECT * FROM projects ");
+    // Fetch only projects for the logged-in user (Secure approach)
+    $sql_fetch = "SELECT * FROM projects ";
+    $result = mysqli_query($conn, $sql_fetch);
+
     if (mysqli_num_rows($result) > 0) {
-      while ($row = mysqli_fetch_assoc($result)) {
-        echo "
-        <div class='project-card'>
-          <h3><u>{$row['project_name']}</u></h3>
-          <img src='{$row['project_logo']}' alt='Image of project'>
-          <p><b>Description:</b> {$row['description']}</p>
-          <p><b>Participants:</b> {$row['participants']}</p>
-          <a href='{$row['project_url']}' target='_blank'>🔗 View Project</a>
-          <p><b>Project uploaded by: </b>{$row['username']}</p>
-          <a href='view.php?project_name=". ($row['project_name']). "'class='delete-btn' onclick='return confirm(\"Are you sure you want to delete this project?\")'>🗑 Delete</a>
-        </div>
-        ";
-      }
+        while ($row = mysqli_fetch_assoc($result)) {
+            // Sanitize variables for display
+            $name = htmlspecialchars($row['project_name']);
+            $desc = htmlspecialchars($row['description']);
+            $parts = htmlspecialchars($row['participants']);
+            $url = htmlspecialchars($row['project_url']);
+            $logo = $row['project_logo'];
+            
+            echo "
+            <div class='project-card'>
+                <!-- Delete Button -->";
+            
+                 if($_SESSION['username'] == $row['username']){
+                  echo" <a href='view.php?project_name=" . urlencode($row['project_name']) . "' 
+                    class='delete-btn' 
+                    onclick='return confirm(\"Permanently delete this project?\")'>
+                    🗑 Delete
+                  </a>";
+                }
+                
+                echo "
+                <h3><u>$name</u></h3>
+                
+                <!-- Project Logo -->
+                <img src='uploads/$logo' alt='Logo for $name' class='project-logo' 
+                     onerror=\"this.style.display='none';\"> 
+
+                <p><b>Description:</b> $desc</p>
+                <p><b>Participants:</b> $parts</p>
+                
+                <a href='$url' target='_blank' class='view-link'>🔗 View Project</a>
+                
+                <p style='font-size: 0.85rem; color: #777; margin-top: 15px;'>
+                    <b>Uploaded by:</b> " . htmlspecialchars($row['username']) . "
+                </p>
+            </div>
+            ";
+        }
     } else {
-      echo "<p>No projects uploaded yet.</p>";
+        echo "<div style='text-align:center; padding: 50px; background:white; border-radius:10px;'>
+                <p>No projects found. Start by adding one!</p>
+              </div>";
     }
     ?>
-  </div>
+</div>
+
 </body>
 </html>
