@@ -158,7 +158,7 @@ if(isset($_GET['project_name'])){
 
 <div class="container">
     <div class="header-links">
-        <h2>My Projects</h2>
+        <h2>Projects</h2>
         <a href="main.php" class="add-btn">+ Add New Project</a>
     </div>
 

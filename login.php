@@ -14,7 +14,7 @@ if(isset($_POST['login'])){
         if($password == $user['password'] and $username == $user['username']){
             $_SESSION['username'] = $username;
             echo "<script>window.alert('Login successfully');
-            window.location.href='main.php';
+            window.location.href='view.php';
             </script>";
             exit();
         }

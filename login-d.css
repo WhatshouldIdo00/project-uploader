@@ -14,7 +14,7 @@ body{
 .container{
     width: 420px;
     background: #fff;
-   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+   box-shadow: 0 2px 6px rgba(0, 55, 184, 0.2);
     border-radius: 10px;
     border: none;
     padding:60px 60px;
